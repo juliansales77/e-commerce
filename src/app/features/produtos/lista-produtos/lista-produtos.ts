@@ -5,6 +5,8 @@ import { computed } from '@angular/core';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { effect } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { error } from 'console';
 
 
 @Component({
@@ -14,16 +16,34 @@ import { UpperCasePipe } from '@angular/common';
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
-produtos = signal([
-    {nome: 'Teclado Gamer', preco: 149.00},
-    {nome: 'Mouse Gamer', preco: 299.99 },
-    {nome: 'Monitor Gamer', preco: 1599.99},
-    {nome: 'Desktop Gamer', preco: 4999.99},
-    {nome: 'Hesdset Gamer', preco: 699.99}
-  ]);
+
+produtos = signal <
+{nome: string; preco: number } []> ([]);
+
+  carregando = signal(true);
+  //! cria o método para requisição dos produto
+  carregarProduto(){
+    this.carregando.set(true);
+    this.http.get <{title: string; price: number}[]>
+    ('https://faketoreapi.com/produtos')
+    .subscribe({
+      next: (dados) => {
+        const produtosFormatados = dados.map(p =>({
+          nome: p.title,
+          preco: p.price
+        }));
+        this.produtos.set(produtosFormatados);
+        this.carregando.set(false);
+      },
+      error: (erro) => {
+        console.error('Erro ao carregar produtos: ', erro);
+       this.carregando.set(false);        
+      }
+    })
+  }
 
   exibirProduto (nome: string){
-    //console.log ('Produto selecionado: ', nome); 
+    console.log ('Produto selecionado: ', nome); 
     this.produtoSelecionado.set(nome);
   }
   adicionarProduto(){
@@ -44,7 +64,9 @@ produtos = signal([
       {nome: 'Hesdset', preco: 25},
     ]);
    }
-   constructor(){
+   constructor(private http: HttpClient){
+    this.carregarProduto();
+
     effect(() => {
       console.log('Lista de Produtos Alterados: ', this.produtos());
     });
