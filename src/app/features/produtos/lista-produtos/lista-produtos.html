@@ -1,3 +1,32 @@
+<h2>Produtos</h2>
+
+@if (carregando()) {
+    <p>carregando produtos...</p>
+}
+
+@if (!carregando()) {
+    @for (item of produtos(); track item.nome) {
+        <app-produto
+        [nome]="item.nome"
+        [preco]="item.preco"
+        (produtoSelecionado)="exibirProduto($event)"
+        ></app-produto>
+
+        <button (click)="adicionarAoCarrinho(item)">adicionar ao Carrinho</button>
+    }
+}
+
+   <h2>Carrinho</h2>
+   @for (item of carrinho(); track $index) {
+    <P>{{item.nome | uppercase }} - {{item.preco | precoFormatado}}</P>
+   }
+   <p><strong>itens no carrinho: </strong> {{quantidadeCarrinho() }}</p>
+   <p><strong>total no carrinho</strong> {{totalCarrinho() | precoFormatado}}</p>
+
+
+
+
+   <!-- 
 <h2>
     produto Selecionado:
     @if (produtoSelecionado()) {
@@ -22,10 +51,4 @@
    <h2>total de produtos: {{totalProdutos()}}</h2>
    <h3>valor total: {{valorTotal() | precoFormatado}}</h3>
    <p><button (click)="substituirProdutos()">substituirProdutos</button></p>
-   <hr>
-   <h2>Carrinho</h2>
-   @for (item of carrinho(); track $index) {
-    <P>{{item.nome | uppercase }} - {{item.preco | precoFormatado}}</P>
-   }
-   <p><strong>itens no carrinho: </strong> {{quantidadeCarrinho() }}</p>
-   <p><strong>total no carrinho</strong> {{totalCarrinho() | precoFormatado}}</p>
+   <hr> -->

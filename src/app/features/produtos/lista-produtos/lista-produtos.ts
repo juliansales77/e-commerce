@@ -1,12 +1,13 @@
-import { Component, } from '@angular/core';
+import { Component, inject, } from '@angular/core';
 import { signal } from '@angular/core';
 import { Produto } from '../produto/produto';
 import { computed } from '@angular/core';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { effect } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { error } from 'console';
+import { produtoService } from '../produto/produtos.service';
+import { Inject } from '@angular/core';
 
 
 @Component({
@@ -23,23 +24,19 @@ produtos = signal <
   carregando = signal(true);
   //! cria o método para requisição dos produto
   carregarProduto(){
-    this.carregando.set(true);
-    this.http.get <{title: string; price: number}[]>
-    ('https://faketoreapi.com/produtos')
-    .subscribe({
-      next: (dados) => {
-        const produtosFormatados = dados.map(p =>({
-          nome: p.title,
-          preco: p.price
-        }));
-        this.produtos.set(produtosFormatados);
-        this.carregando.set(false);
+   this.carregando.set(true)
+
+   this.produtosService.buscarProdutos().subscribe({
+    next: (dados) => {
+      const produtos = this.produtosService.transformarProdutos(dados);
+      this.produtos.set(produtos);
+      this.carregando.set(false);
+    },
+error: (erro) => {
+  console.error('erro ao carregar os  produtos:, ', erro);
+  this.carregando.set(false);
       },
-      error: (erro) => {
-        console.error('Erro ao carregar produtos: ', erro);
-       this.carregando.set(false);        
-      }
-    })
+   });
   }
 
   exibirProduto (nome: string){
@@ -64,7 +61,7 @@ produtos = signal <
       {nome: 'Hesdset', preco: 25},
     ]);
    }
-   constructor(private http: HttpClient){
+   constructor(){
     this.carregarProduto();
 
     effect(() => {
@@ -86,7 +83,10 @@ produtos = signal <
    adicionarAoCarrinho (produto: {nome: string; preco: number }){
     this.carrinho.update(listaAtual => 
      [ ...listaAtual,produto]);
+
+     
 }
+private produtosService = inject(produtoService)
   
 quantidadeCarrinho = computed(() => this.carrinho().length);
   totalCarrinho = computed (() => {
