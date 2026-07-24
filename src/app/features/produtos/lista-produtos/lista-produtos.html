@@ -15,7 +15,7 @@
         <button (click)="adicionarAoCarrinho(item)">adicionar ao Carrinho</button>
     }
 }
-
+<hr>
    <h2>Carrinho</h2>
    @for (item of carrinho(); track $index) {
     <P>{{item.nome | uppercase }} - {{item.preco | precoFormatado}}</P>
