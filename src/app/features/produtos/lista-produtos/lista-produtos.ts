@@ -25,6 +25,7 @@ produtos = signal <
   //! cria o método para requisição dos produto
   carregarProduto(){
    this.carregando.set(true)
+   this.erro.set(null);
 
    this.produtosService.buscarProdutos().subscribe({
     next: (dados) => {
@@ -34,6 +35,7 @@ produtos = signal <
     },
 error: (erro) => {
   console.error('erro ao carregar os  produtos:, ', erro);
+  this.erro.set('Ero ao carregar os Produtos. verifique sua conexão e tente novamente')
   this.carregando.set(false);
       },
    });
@@ -79,6 +81,9 @@ error: (erro) => {
    produtoSelecionado = signal <string | null> (null);
 
   carrinho = signal <{nome: string; preco: number}[]> ([]);
+
+  erro = signal <string | null> (null);
+
   
    adicionarAoCarrinho (produto: {nome: string; preco: number }){
     this.carrinho.update(listaAtual => 

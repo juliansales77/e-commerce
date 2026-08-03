@@ -1,21 +1,34 @@
-<h2>Produtos</h2>
-
+<!-- Estado 1: Loading -->
 @if (carregando()) {
-    <p>carregando produtos...</p>
+<p>Carregando produtos...</p>
 }
 
-@if (!carregando()) {
-    @for (item of produtos(); track item.nome) {
-        <app-produto
-        [nome]="item.nome"
-        [preco]="item.preco"
-        (produtoSelecionado)="exibirProduto($event)"
-        ></app-produto>
+<!-- Estado 2: Erro -->
+@if (erro()) {
+<p style="color: red">
+{{ erro() }}
+</p>
 
-        <button (click)="adicionarAoCarrinho(item)">adicionar ao Carrinho</button>
-    }
+<button (click)="carregarProduto()">Tentar novamente</button>
 }
-<hr>
+
+<!-- Estado 3: Sucesso -->
+@if (!carregando() && !erro()) {
+<p>Total de produtos: {{ totalProdutos() }}</p>
+
+<hr />
+
+@for (item of produtos(); track $index) {
+<app-produto
+ [nome] = "item.nome" 
+ [preco] = "item.preco" 
+ (produtoSelecionado)="exibirProduto($event)"
+ (produtoAdicionado)="adicionarAoCarrinho($event)"
+ ></app-produto>
+ 
+}
+}
+
    <h2>Carrinho</h2>
    @for (item of carrinho(); track $index) {
     <P>{{item.nome | uppercase }} - {{item.preco | precoFormatado}}</P>
