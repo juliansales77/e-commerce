@@ -36,7 +36,7 @@ produtos = signal <
     },
 error: (erro) => {
   console.error('erro ao carregar os  produtos:, ', erro);
-  this.erro.set('Ero ao carregar os Produtos. verifique sua conexão e tente novamente')
+  this.erro.set('Erro ao carregar os Produtos. verifique sua conexão e tente novamente')
   this.carregando.set(false);
       },
    });
