@@ -3,9 +3,9 @@
   <h3>{{nome | uppercase}}</h3>
   <p>{{preco | precoFormatado}}</p>
 
-   <button (click)="selecionadoProduto()">
+   <button mat-stroked-button color="wan" (click)="selecionadoProduto()">
     selecionar {{ nome }}
   </button>
 
-  <button (click)="adicionarAoCarrinho()">adicionar ao carrinho </button>
+  <button mat-raised-button color="primary" (click)="adicionarAoCarrinho()">adicionar ao carrinho </button>
 </div>
