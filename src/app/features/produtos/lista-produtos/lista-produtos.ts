@@ -9,10 +9,11 @@ import { error } from 'console';
 import { produtoService } from '../produto/produtos.service';
 import { Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-lista-produtos',
-  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe, MatButtonModule],
+  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe, MatButtonModule, MatCardModule],
   templateUrl: '../lista-produtos/lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
