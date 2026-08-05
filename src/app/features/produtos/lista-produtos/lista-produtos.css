@@ -1,0 +1,18 @@
+.grid-produtos{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+/*BreakPoints: mobale  (android e ios) e tablet: ate 600px*/
+@media(min-width: 600px){
+    .grid-produtos{
+        grid-template-columns: repeat(2, 1fr); /* abaixo de 600px mobale,1 coluna | em 600px para  tablet, */
+    }
+}
+/*breakpoints: destop ate 900px*/
+@media(min-width:900px){
+    .grid-produtos{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
