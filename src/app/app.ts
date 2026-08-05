@@ -3,10 +3,11 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 import { login, usuarioLogado, logout } from './core/auth';
 import { Header } from './shared/layout/header/header';
 import { MatButtonModule } from '@angular/material/button';
+import { MatAnchor } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, Header, MatButtonModule],
+  imports: [RouterOutlet, RouterLink, Header, MatButtonModule, MatAnchor],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
