@@ -1,8 +1,8 @@
 <app-header></app-header>
 
-<main style="padding: 20;">
+<main class = "container-principal">
 
-<section style="margin-bottom: 20px;">
+<section class = "bloco-controle">
 <button  mat-raised-button (click)="login()">login</button>
 <button mat-stroked-button (click)="logout()">logout</button>
 <p>status: {{usuarioLogado() ?  'Logado' : 'Delogado'}}</p>
