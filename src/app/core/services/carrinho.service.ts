@@ -2,6 +2,9 @@ import { Injectable } from "@angular/core";
 import { signal } from "@angular/core";
 import { computed } from "@angular/core";
 
+@Injectable({
+    providedIn: 'root'
+})
 export class CarrinhoService {
     //! estado global
     private carrinho = signal<{nome: string; preco: number}[]>([]);
