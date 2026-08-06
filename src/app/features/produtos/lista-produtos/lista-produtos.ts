@@ -88,14 +88,15 @@ error: (erro) => {
 
   
    adicionarAoCarrinho (produto: {nome: string; preco: number }){
-    this.CarrinhoService.adicionar(produto);
+    this.carrinhoService.adicionar(produto);
    }
 
 private produtosService = inject(produtoService);
-private CarrinhoService = inject(CarrinhoService);
+public carrinhoService = inject(CarrinhoService);
 
-quantidadeCarrinho = this.CarrinhoService.quantidadeItens;
-totalCarrinho = this.CarrinhoService.totalItens;
+quantidadeCarrinho = this.carrinhoService.quantidadeItens;
+totalCarrinho = this.carrinhoService.totalItens;
 
-  }
+}
+
   
