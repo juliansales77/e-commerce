@@ -1,0 +1,9 @@
+<h2>Login</h2>
+<P>Informe seu dados para acessar a loja</P>
+<form [formGroup]="formulario">
+    <label>Email</label>
+    <p><input type="email" formControlName="email" placeholder="E-mail"></p>
+    <label>Senha</label>
+    <p><input type="password" formControlName="senha" placeholder="Senha"></p>
+    <p><input type="button" (click)="entrar()" [disabled]="formulario.invalid">Entrar</p>
+</form>
