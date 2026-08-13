@@ -12,6 +12,9 @@ type Usuario = {
 })
 
 export class AuthService {
+    ehAdmin() {
+      throw new Error('Method not implemented.');
+    }
     estaLogado() {
         throw new Error("Method not implemented.");
     }

@@ -1,57 +1,36 @@
-//import { Routes } from '@angular/router';
-//import { ListaProdutos } from './features/produtos/lista-produtos/lista-produtos';
-//import { Carrinho } from './features/carrinho/carrinho/carrinho';
-//import { Home } from './features/home/home/home';
-
-//export const routes: Routes = [
-
-   // {
-       // path: '',
-        //component: Home,
-    //},
-    //código legado com lazyLoading
-   // {
-   //     path: 'produtos',
-  //      component: ListaProdutos,
-  //  },
-    //{
-     //   path: 'produtos',
-       // loadComponent: () =>
-         //   import ('./features/produtos/lista-produtos/lista-produtos').then(m =>m.ListaProdutos)
-    //},
-    //{
-     //   path: 'carrinho',
-      //  component: Carrinho,
-    //},
-//];
-// ! código final
-import { Routes} from "@angular/router";
-import { authGuard } from "./core/auth.guard";
-
+ import { Routes } from '@angular/router';
+import { authGuard } from './core/auth.guard';
+import { adminGuard } from './core/admin.guard';
 export const routes: Routes = [
-    {
+{
 path: '',
-loadComponent: () =>
-    import ('./features/home/home/home').then((m) => m.Home),
-    },
-    {
-        path: 'produtos',
-        loadComponent: () => 
-            import ('./features/produtos/lista-produtos/lista-produtos').then((m) => m.ListaProdutos)
-    },
-    {
-        path: 'carrinho',
-        canActivate: [authGuard],
-        loadComponent: () =>
-        import ('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho),
-    },
-    {
-        path: 'checkout',
-        loadComponent: () =>
-            import ('./features/checkout/checkout/checkout').then((m) => m.Checkout)
-    },
-    {
-       path: '**',
-       redirectTo: '',
-    },
+loadComponent: () => import('./features/home/home/home').then((m) => m.Home),
+},
+{
+path: 'produtos',
+loadComponent: () => import('./features/produtos/lista-produtos/lista-produtos').then((m) => m.ListaProdutos),
+},
+{
+path: 'carrinho',
+canActivate: [authGuard],
+loadComponent: () => import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho),
+},
+{
+path: 'checkout',
+canActivate: [authGuard],
+loadComponent: () => import('./features/checkout/checkout/checkout').then((m) => m.Checkout),
+},
+{
+path: 'admin',
+canActivate: [adminGuard],
+loadComponent: () => import('./features/admin/admin/admin').then((m) => m.Admin),
+},
+{
+path: 'login',
+loadComponent: () => import('./features/login/login/login').then((m) => m.Login),
+},
+{
+path: '**',
+redirectTo: '',
+},
 ];

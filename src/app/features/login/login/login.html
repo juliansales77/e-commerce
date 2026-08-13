@@ -1,9 +1,34 @@
 <h2>Login</h2>
 <P>Informe seu dados para acessar a loja</P>
+@if (errologin()) {
+    <p style="color: red;">Não foi Possivel realizar o login!</p>
+}
 <form [formGroup]="formulario">
     <label>Email</label>
     <p><input type="email" formControlName="email" placeholder="E-mail"></p>
+    @if (formulario.get('email')?.touched && formulario.get('email')?.invalid) {
+        @if (formulario.get('email')?.errors?.['required']) {
+            <small style="color: red;">E-mail é Obrigatorio</small>
+        }
+        @if(formulario.get('')?.errors?.['email']) {
+            <br>
+            <small style="color: red;">E-mail inválido</small>
+        }
+    }
     <label>Senha</label>
     <p><input type="password" formControlName="senha" placeholder="Senha"></p>
+@if (formulario.get('senha')?.touched && formulario.get('senha')?.invalid) {
+        @if (formulario.get('senha ')?.errors?.['required']) {
+            <small style="color: red;">Senha  é Obrigatorio</small>
+        }
+        @if(formulario.get('senha')?.errors?.['minLength']) {
+            <br>
+            <small style="color: red;">Senha inválido</small>
+        }
+    }
+
+
+
+
     <p><input type="button" (click)="entrar()" [disabled]="formulario.invalid">Entrar</p>
 </form>
