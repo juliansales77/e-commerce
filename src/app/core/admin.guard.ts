@@ -1,44 +1,21 @@
- import { Injectable, computed, signal } from '@angular/core';
-type PerfilUsuario = 'usuario' | 'admin';
-type Usuario = {
-email: string;
-perfil: PerfilUsuario;
-};
-@Injectable({
-providedIn: 'root',
-})
-export class AuthService {
-private usuario = signal<Usuario | null>(null);
-private tokenJwt = signal<string | null>(null);
-usuarioAtual = computed(() => this.usuario());
-estaLogado = computed(() => this.usuario() !== null);
-ehAdmin = computed(() => this.usuario()?.perfil === 'admin');
-token = computed(() => this.tokenJwt());
-login(email: string, senha: string): boolean {
-if (!email || !senha) {
-return false;
-}
-// Regra: e-mail perfil será admin: admin@email.com . Outro e-mail: usuario comum.
-const perfil: PerfilUsuario = email === 'admin@email.com' ? 'admin' : 'usuario';
-const tokenSimulado =
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
-'eyJzdWIiOiJhbHVub0B0ZXN0ZS5jb20iLCJwZXJmaWwiOiJ1c3VhcmlvIn0.' +
-'assinatura-simulada';
-this.usuario.set({
-email,
-perfil,
-});
-this.tokenJwt.set(tokenSimulado);
-return true;
-}
-logout() {
-this.usuario.set(null);
-this.tokenJwt.set(null);
-}
-obterToken(): string | null {
-return this.tokenJwt();
-}
-obterPerfil(): PerfilUsuario | null {
-return this.usuario()?.perfil ?? null;
-}
+import { inject } from "@angular/core";
+import { Router } from "@angular/router";
+import { CanActivateFn } from "@angular/router";
+import { AuthService } from "./services/auth.service";
+
+export const adimnGuard: CanActivateFn = () => {
+
+    const router = inject(Router);
+    const authService = inject(AuthService)
+
+//! - 1) Verifecar se o usuario esta logado
+if(!authService.usuarioLogado()){
+    return router.createUrlTree(['/acesso-negado']);
+    }
+    //! - 2) Verificar se o usuario atual (Logado), se tem perfil adm
+    if(!authService.admin()){
+        return router.createUrlTree(['/acesso-negado'])
+    }
+    //! - 3) se o usuario estiver logado e for adm = ACESSO LIBERADO
+    return true;
 }
