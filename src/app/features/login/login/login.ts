@@ -1,8 +1,7 @@
-import { Component, inject,signal } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormControl, Validator, Validators } from '@angular/forms';
+import { Router, Routes } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { email } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-login',
@@ -11,21 +10,18 @@ import { email } from '@angular/forms/signals';
   styleUrl: './login.css',
 })
 export class Login {
-
   private authService = inject(AuthService);
   private router = inject(Router);
-
-  errologin = signal(false);
-
+  errologin = signal(false)
   formulario = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    senha: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    email: new FormControl('',[Validators.required, Validators.email]),
+    senha: new FormControl('',[Validators.required, Validators.minLength(3)]),
   });
-  entrar() {
-    this.errologin.set(false);
 
+  entrar(){
+    this.errologin.set(false);
     if(this.formulario.invalid){
-      this.formulario.markAsTouched();
+      this.formulario.markAllAsTouched();
       return;
     }
     const email = this.formulario.value.email ?? '';
@@ -36,13 +32,11 @@ export class Login {
       this.errologin.set(true);
       return;
     }
-    if (this.authService.ehAdmin()) {
-this.router.navigateByUrl('/admin');
-return;
-}
 
-
-
+    if(this.authService.admin()){
+      this.router.navigateByUrl('/admin');
+      return
+    }
     this.router.navigateByUrl('/produtos');
   }
 }
