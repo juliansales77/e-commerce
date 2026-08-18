@@ -1,3 +1,34 @@
-<h1>Carrinho</h1>
-<p>você está na página do Carrinho</p>
-<!--<p>nas próximas aulas, este carrinho será conectado ao estado global</p>-->
+<section class="conteiner-carrinho">
+    <h2>Carrinho</h2>
+@if(carrinhoFacade.carrinhoVazio()) {
+    <p>Seu carrinho está vazio</p>
+    <button mat-raised-button color="primary" routerLink="/produto"> Ver produtso</button>
+}@else {
+    <section class="lista-carrinho">
+        @for(item of carrinhoFacade.itens(); track $index){
+            <article class="item-Carrinho">
+          <div>
+                <p><strong>{{item.nome}}</strong></p>
+                <p>{{item.preco | precoFormatado}}</p>
+            </div>
+            <button mat-raised-button color="warn"
+            type="button"
+            (click)="removerItem($index)">
+            Renovar</button>
+
+            </article>
+            
+        }
+    </section>
+}
+</section>
+<section class="resuma-carrinho">
+<p><strong>Itens no Carrinho</strong>{{carrinhoFacade.quantidadeCarrinho()}}</p>
+<p><strong>Total</strong>{{ carrinhoFacade.totalCarrinho() | precoFormatado}}</p>
+</section>
+<section class="acoes-carrinho">
+<button mat-button type="button" (click)="limpaCarrinho()">Limpa carrinho</button>
+<button mat-button type="button" routerLink="/produtos">Continuar Comprando</button>
+<button class="acao-carrinho-comfirmar" mat-button type="button" routerLink="/checkout">Finalizar</button>
+<button class="acao-carrinho-cancelar" mat-button type="button" (click)="cancelarCompra()"></button>
+</section>
