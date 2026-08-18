@@ -1,5 +1,6 @@
 import { Injectable, computed, signal } from "@angular/core";
 
+
 type PerfilUsuario = 'admin' | 'usuario'; 
 
 type Usuario = {
@@ -50,4 +51,7 @@ logout(){
         return this.tokenJwt();
     }
 
+    obterPerfil():PerfilUsuario | null {
+        return this.usuario()?.perfil ?? null;
+    }
 }
