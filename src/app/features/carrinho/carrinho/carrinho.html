@@ -10,12 +10,15 @@
           <div>
                 <p><strong>{{item.nome}}</strong></p>
                 <p>{{item.preco | precoFormatado}}</p>
-            </div>
-            <button mat-raised-button color="warn"
-            type="button"
-            (click)="removerItem($index)">
-            Renovar</button>
 
+                <button mat-raised-button color="warn"
+                 type="button"
+                 (click)="removerItem($index)">
+                 Renovar</button>
+
+
+            </div>
+            
             </article>
             
         }
