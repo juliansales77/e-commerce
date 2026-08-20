@@ -3,8 +3,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { CarrinhoService } from '../../../core/services/carrinho.service';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthFacade } from '../../../core/facades/auth.facade';
+import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
 import { Router } from '@angular/router';
 
 
@@ -18,17 +18,17 @@ import { Router } from '@angular/router';
 export class Header {
   nomeLoja = 'Full Stack Store';
   
-  private carrinhoService = inject(CarrinhoService);
-  quantidade = this.carrinhoService.quantidadeItens;
+  private carrinhoService = inject(CarrinhoFacade);
+  quantidade = this.carrinhoService.quantidadeCarrinho;
   
-  private authService = inject(AuthService)
+  private authService = inject(AuthFacade)
   usuarioLogado = this.authService.usuarioLogado;
   usuarioAtual = this.authService.usuarioAtual;
   
   private router = inject(Router)
   
   sair(){
-    this.authService.logout();
+    this.authService.sair();
     this.router.navigateByUrl('/login')
   }
 }
