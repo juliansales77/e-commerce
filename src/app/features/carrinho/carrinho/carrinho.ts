@@ -20,7 +20,7 @@ export class Carrinho {
   private authFacade = inject(AuthFacade);
   
   removerItem(rmvItem:number){
-    this.carrinhoFacade.limpaCarrinho();
+    this.carrinhoFacade.removerItem(rmvItem);
   }
   limpaCarrinho(){
     this.carrinhoFacade.limpaCarrinho();
