@@ -1,64 +1,73 @@
 <h2>Checkout</h2>
-@if (compraFinalizada()) {
-    <p style="color: green;">Compra finalizada com sucesso </p>
-}
 
-
-@if (carrinhoFacade.carrinhoVazio()) {
-    <p style="color: red;">Seu carrinho está vazio. Adicione um produto antes de finalizar a compra.</p>
-}@else {
-    <section>
-        <h2>Resumo do pedido</h2>
-        @for (item of carrinhoFacade.itens(); track $index) {
-            <p>{{item.nome}} - R$ {{item.preco.toFixed(2)}}</p>
-        }
-        <h3>Total: R$ {{carrinhoFacade.totalCarrinho().toFixed(2)}}</h3>
+@if(pedidoFinalizado()){
+    <section class="compra-finalizada">
+        <h3>COMPRA FINALIZADA COM SUCESSO! 🤠</h3>
+        <p><strong>Código:</strong>{{pedidoFinalizado()?.codigo}}</p>
+        <p><strong>Cliente:</strong>{{pedidoFinalizado()?.cliente}}</p>
+        <p><strong>Quantidade:</strong>{{pedidoFinalizado()?.quantidadeItens}}</p>
+        <p><strong>Total:</strong>{{pedidoFinalizado()?.total}}</p>
+        <button type="button" routerLink="/produto"></button>
     </section>
 }
+
+@if(carrinhoFacade.carrinhoVazio() && !pedidoFinalizado()){
+    <section class="carrinho-vazio">
+        <h3>Seu carrinho está vazio</h3>
+        <p>Adicione Produtos antes de finalizar sua compra</p>
+        <button type="button" routerLink="/produtos"></button>
+    </section>
+
+}@else if(!pedidoFinalizado()){
+    <section class="resumo-pedido">
+        <h3>Resumo do pedido</h3>
+        <p><strong>Itens do Carrinho:</strong>{{ carrinhoFacade.quantidadeCarrinho() }}</p>
+        <p><strong>Total:</strong>{{carrinhoFacade.totalCarrinho() | precoFormatado}}</p> 
+        <button type="button" routerLink="/carrinho"> Revisar Carrinho</button>
+      
+    </section>
+
+}
+<hr>
 <form [formGroup]="formulario">
-    <p><input type="text" formControlName = "nome" placeholder = "Nome"></p>
-    @if(formulario.get('nome')?.touched && formulario.get('nome')?.invalid){
-        @if (formulario.get('nome')?.errors?.['required']){
-            <small style="color: red;" >Nome é Obrigatório!</small>
+
+    <!-- NOME -->
+<p><input type="text" formControlName="nome" placeHolder="Nome"></p>
+@if(formulario.get('nome')?.touched && formulario.get('nome')?.invalid){
+    @if(formulario.get('nome')?.errors?.['required']){
+        <small style="color: red;">Nome é Obrigatório</small>
     }
-    }
-@if (formulario.get('nome')?.errors?.['minlength']) {
+}
+@if(formulario.get('nome')?.errors?.['minlength']){
     <small style="color: red;">Nome deve ter no mínimo 3 letras</small>
 }
-@if (formulario.get('nome')?.errors?.['numeroInvalido']) {
-    <br>
-    <small style="color: red;">Nome não pode conter Números</small>
+@if(formulario.get('nome')?.errors?.['numeroInvalido']){
+    <small style="color: red">Nome não pode conter Números!</small>
 }
 
-    <p><input type="email" formControlName = "email" placeholder = "E-mail"></p>
-    @if (formulario.get('email')?.touched && formulario.get('email')?.invalid) {
-        @if (formulario.get('email')?.errors?.['required']) {
-            <br>
-            <small style="color: red;">E-mail é Obrigatório</small>
-        }
-        @if (formulario.get('nome')?.errors?.['minlegenth']) {
-            <br>
-            <small style="color: red;"> E-mail Invalido sem @</small>
+<!-- EMAIL -->
+<p><input type="email" formControlName="email" placeHolder="E-mail"></p>
+@if(formulario.get('email')?.touched && formulario.get('email')?.invalid){
+    @if(formulario.get('email')?.errors?.['required']){
+        <small style="color: red"> O E-mail é Obrigatório</small>
+    }  
+    @if(formulario.get('email')?.errors?.['email']){
+        <small style="color: red"> Digite seu E-mail corretamente.</small>
+    }
+    
+}
+<!-- ENDERRECO-->
+<p><input type="text" formControlName="endereco" placeholder="Endereço"></p>
+@if(formulario.get('endereco')?.touched && formulario.get('endereco')?.invalid){
+    @if(formulario.get('endereco')?.errors?.['required']){
+    <small style="color: red;">O Endereço é Obrigatório</small>
     }
 }
-@if (formulario.get('email')?.errors?.['email']) {
-    <br>
-    <small style="color: red;">E-mail invalido</small>
+@if(formulario.get('endereco')?.errors?.['minlength']){
+    <small style="color: red;">Endereço Inválido</small>
 }
 
-    <p><input type="text" formControlName = "endereco" placeholder = "Endereço"></p>
-    @if (formulario.get('endereco')?.touched && formulario.get('endereco')?.invalid) {
-        @if (formulario.get('endereco')?.errors?.['required']) {
-            <br>
-            <small style="color: red;">Endereço é Obrigatório</small>
-        }
-    }
 
-    @if (formulario.get('endereco')?.errors?.['minlength']){
-        <br>
-        <small style="color: red;">Nome deve ter no mínimo 5 letras</small>
-    }
-
-
-    <button type="button" (click)="finalizar()" [disabled]="formulario.invalid">Finalizar compra</button>
+<br>
+<button type="button" (click)="finalizar()" [disabled]="formulario.invalid">Finalizar Compra</button>
 </form>
