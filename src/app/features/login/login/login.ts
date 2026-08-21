@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validator, Validators } from '@angular/forms';
 import { Router  } from '@angular/router';
 import { AuthFacade } from '../../../core/facades/auth.facade';
+
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule],
