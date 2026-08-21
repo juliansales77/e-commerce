@@ -1,36 +1,41 @@
-<!-- Estado 1: Loading -->
-@if (carregando()) {
-<p>Carregando produtos...</p>
-}
+<section class="pagina-produtos">
+    <header class="cabecalho=produtos">
+        <div>
+        <h2> Produtos </h2>
+        <p> Escolha os Produtos e adicione-os ao Carrinho! </p>
+        </div>
+        <button mat-stroked-button color="primary" type="button" routerLink="/carrinho"> 
+        Ver Carrinho ({{carrinhoFacade.quantidadeCarrinho()}}) </button>
 
-<!-- Estado 2: Erro -->
-@if (erro()) {
-<p style="color: red">
-{{ erro() }}
-</p>
 
-<button (click)="carregarProduto()">Tentar novamente</button>
-}
+    </header>
+    @if(carregando()) {
+    <p>Carregando Produtos...</p>
+    }
+    @if(erro()) {
+    <section class="mensagem-erro"></section>
+    <p style="color:red">{{ erro() }}</p>
+    <button mat-stroked-button color="primary" (click)="carregarProdutos()">Tentar Novamente </button>
+ }
+     
 
-<!-- Estado 3: Sucesso -->
-@if (!carregando() && !erro()) {
-<p>Total de produtos: {{ totalProdutos() }}</p>
 
-<hr />
+ @if (!carregando() && !erro()) {
+    <section class="resumo-produtos">
+    <p><strong> Total de Produtos:</strong>{{totalProdutos()}}</p>
+    <p><strong> Valor total de Produtos:</strong>R$ {{valorTotalFormatado()}}</p>
+    </section>
+    
+<hr>
 <section class="grid-produtos">
-@for (item of produtos(); track $index) {
-<app-produto
- [nome] = "item.nome" 
- [preco] = "item.preco" 
- (produtoSelecionado)="exibirProduto($event)"
- (produtoAdicionado)="adicionarAoCarrinho($event)"
- ></app-produto>
- 
-}
+ @for(item of produtos(); track $index){
+    <app-produto
+    [nome] = "item.nome"
+    [preco] = "item.preco"
+    (produtoSelecionado)="exibirProduto($event)"
+    (produtoAdicionado)="adicionarAoCarrinho($event)"
+    >
+    </app-produto>
+ }
 </section>
-}
-
-   
-
-
-  
+ }
