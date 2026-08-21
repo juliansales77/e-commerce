@@ -1,4 +1,4 @@
-<section class="conteiner-carrinho">
+<section class="pagina-carrinho">
     <h2>Carrinho</h2>
 @if(carrinhoFacade.carrinhoVazio()) {
     <p>Seu carrinho está vazio</p>
@@ -32,6 +32,6 @@
 <section class="acoes-carrinho">
 <button mat-button type="button" (click)="limpaCarrinho()">Limpa carrinho</button>
 <button mat-button type="button" routerLink="/produtos">Continuar Comprando</button>
-<button class="acao-carrinho-comfirmar" mat-button type="button" routerLink="/checkout">Finalizar</button>
-<button class="acao-carrinho-cancelar" mat-button type="button" (click)="cancelarCompra()"></button>
+<button class="carrinho-comfirmar" mat-button type="button" routerLink="/checkout">Finalizar</button>
+<button class="carrinho-cancelar" mat-button type="button" (click)="cancelarCompra()"></button>
 </section>
